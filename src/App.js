@@ -143,7 +143,7 @@ function App() {
         <div className="hero-content">
           <p className="hero-greeting">Hi, I'm</p>
           <h1 className="hero-name">Navendra Ramdhan</h1>
-          <h2 className="hero-title">Full Stack Developer</h2>
+          <h2 className="hero-title">Front End Developer</h2>
           <p className="hero-sub">I build clean, performant web experiences.</p>
           <div className="hero-buttons">
             <a href="#projects" className="btn btn-primary">View My Work</a>
@@ -160,9 +160,8 @@ function App() {
           <div className="about-avatar">NR</div>
           <div className="about-text">
             <p>
-              I'm a passionate full stack developer with 4+ years of experience building
-              web applications. I love turning complex problems into simple, beautiful
-              solutions.
+              I'm a passionate front end developer who loves building clean, responsive
+              web experiences using modern tools like React, Next.js, and TypeScript.
             </p>
             <p>
               When I'm not coding, you'll find me hiking, reading sci-fi, or experimenting
@@ -182,10 +181,8 @@ function App() {
         <h2 className="section-title">Skills</h2>
         <div className="skills-grid">
           {[
-            { category: 'Frontend', items: ['React', 'TypeScript', 'HTML/CSS', 'Tailwind'] },
-            { category: 'Backend', items: ['Node.js', 'Python', 'REST APIs', 'GraphQL'] },
-            { category: 'Database', items: ['PostgreSQL', 'MongoDB', 'Redis', 'Prisma'] },
-            { category: 'DevOps', items: ['Docker', 'AWS', 'CI/CD', 'Git'] },
+            { category: 'Languages', items: ['HTML', 'CSS', 'JavaScript', 'TypeScript'] },
+            { category: 'Frameworks', items: ['React', 'Next.js', 'Redux', 'Node.js'] },
           ].map(({ category, items }) => (
             <div className="skill-card" key={category}>
               <h3>{category}</h3>
@@ -203,40 +200,22 @@ function App() {
         <div className="projects-grid">
           {[
             {
-              title: 'ShopEasy',
-              desc: 'A full-stack e-commerce platform with real-time inventory, Stripe payments, and an admin dashboard.',
-              tags: ['React', 'Node.js', 'PostgreSQL', 'Stripe'],
+              title: 'Summarist Internship',
+              desc: 'Description coming soon.',
+              tags: [],
               color: '#6c63ff',
             },
             {
-              title: 'TaskFlow',
-              desc: 'A collaborative project management tool with drag-and-drop boards, comments, and team analytics.',
-              tags: ['React', 'GraphQL', 'MongoDB', 'Socket.io'],
+              title: 'NFT Marketplace Internship',
+              desc: 'Description coming soon.',
+              tags: [],
               color: '#00b894',
             },
             {
-              title: 'WeatherNow',
-              desc: 'A weather dashboard with 7-day forecasts, interactive maps, and location-based alerts.',
-              tags: ['TypeScript', 'OpenWeather API', 'Leaflet'],
+              title: 'Movie Finder Clone Project',
+              desc: 'Description coming soon.',
+              tags: [],
               color: '#fd79a8',
-            },
-            {
-              title: 'DevBlog',
-              desc: 'A markdown-powered blogging platform with syntax highlighting, tags, and an RSS feed.',
-              tags: ['Next.js', 'MDX', 'Tailwind', 'Vercel'],
-              color: '#fdcb6e',
-            },
-            {
-              title: 'ChatBot AI',
-              desc: 'An AI-powered customer support chatbot with NLP, conversation history, and analytics.',
-              tags: ['Python', 'FastAPI', 'OpenAI', 'React'],
-              color: '#74b9ff',
-            },
-            {
-              title: 'FitTrack',
-              desc: 'A fitness tracking app with workout logging, progress charts, and social challenges.',
-              tags: ['React Native', 'Firebase', 'Chart.js'],
-              color: '#a29bfe',
             },
           ].map(({ title, desc, tags, color }) => (
             <div className="project-card" key={title}>
