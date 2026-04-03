@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
 import {
   SiHtml5, SiCss, SiJavascript, SiTypescript,
@@ -51,6 +51,13 @@ function CursorTrail() {
       }
     };
     window.addEventListener('mousemove', onMove);
+
+    const onTouch = (e) => {
+      const touch = e.touches[0];
+      if (!touch) return;
+      onMove({ clientX: touch.clientX, clientY: touch.clientY });
+    };
+    window.addEventListener('touchmove', onTouch, { passive: true });
 
     const drawHex = (ctx, x, y, r) => {
       ctx.beginPath();
@@ -121,6 +128,7 @@ function CursorTrail() {
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('touchmove', onTouch);
       window.removeEventListener('resize', resize);
     };
   }, []);
@@ -129,17 +137,30 @@ function CursorTrail() {
 }
 
 function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleNavClick = () => setMenuOpen(false);
+
   return (
     <div className="portfolio">
       <CursorTrail />
       <nav className="nav">
         <div className="nav-logo">NR</div>
-        <ul className="nav-links">
-          <li><a href="#about">About</a></li>
-          <li><a href="#skills">Tech Stack</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#contact">Contact</a></li>
+        <ul className={`nav-links${menuOpen ? ' nav-links--open' : ''}`}>
+          <li><a href="#about" onClick={handleNavClick}>About</a></li>
+          <li><a href="#skills" onClick={handleNavClick}>Tech Stack</a></li>
+          <li><a href="#projects" onClick={handleNavClick}>Projects</a></li>
+          <li><a href="#contact" onClick={handleNavClick}>Contact</a></li>
         </ul>
+        <button
+          className={`burger${menuOpen ? ' burger--open' : ''}`}
+          onClick={() => setMenuOpen(o => !o)}
+          aria-label="Toggle menu"
+        >
+          <span />
+          <span />
+          <span />
+        </button>
       </nav>
 
       {/* Hero */}
