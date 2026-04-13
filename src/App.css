@@ -1,3 +1,6 @@
+/* ── Google Fonts for light mode editorial style ── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,800;1,700;1,800&display=swap');
+
 /* ── Reset & Base ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1809,117 +1812,151 @@ html, body { max-width: 100%; overflow-x: hidden; }
 }
 
 /* ════════════════════════════════════════
-   LIGHT MODE — "Golden Hour"
-   Warm ivory / amber / forest green
+   LIGHT MODE — "Editorial"
+   Original colours, serif + Inter typography,
+   clean animations — no glow, no neon
    ════════════════════════════════════════ */
 
 .light-mode {
-  --bg:      #fdf6ed;
-  --bg-alt:  #f0e5d0;
-  --surface: #fffcf5;
-  --border:  #e4cfb0;
-  --accent:  #b87210;
-  --accent2: #2d7d5a;
-  --text:    #1c1108;
-  --muted:   #7c6548;
+  --bg:      #f5f5f8;
+  --bg-alt:  #eaeaf0;
+  --surface: #ffffff;
+  --border:  #d0d0df;
+  --text:    #1a1a2e;
+  --muted:   #6060a0;
 }
 
 /* ── Base ── */
 .light-mode {
   background: var(--bg);
   color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
-.light-mode .section:not(.section-alt) {
-  background: var(--bg);
-}
-
-.light-mode .section-alt {
-  background: var(--bg-alt);
-}
+.light-mode .section:not(.section-alt) { background: var(--bg); }
+.light-mode .section-alt               { background: var(--bg-alt); }
 
 /* ── Scrollbar ── */
 .light-mode::-webkit-scrollbar-track { background: var(--bg); }
 .light-mode::-webkit-scrollbar-thumb { background: var(--border); }
-.light-mode::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
-/* ── Nav — warm frosted parchment ── */
+/* ── Nav — crisp, minimal strip ── */
 .light-mode .nav {
-  background: rgba(253,246,237,0.90);
-  border-bottom: 1px solid rgba(184,114,16,0.18);
-  box-shadow: 0 2px 24px rgba(184,114,16,0.07);
+  background: rgba(245,245,248,0.94);
+  border-bottom: 1px solid var(--border);
+  box-shadow: none;
 }
+
+/* Nav logo — italic serif display */
+.light-mode .nav-logo {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+/* Nav links — Inter, lighter weight */
+.light-mode .nav-links a {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+/* Underline expands from centre instead of left */
+.light-mode .nav-links a::after {
+  left: 50%;
+  transform: translateX(-50%);
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.35s cubic-bezier(0.22,1,0.36,1);
+}
+.light-mode .nav-links a:hover::after { width: 100%; }
 
 @media (max-width: 768px) {
   .light-mode .nav-links {
-    background: rgba(253,246,237,0.98);
-    border-top: 1px solid var(--border);
+    background: rgba(245,245,248,0.98);
   }
 }
 
-/* ── Hero — warm radial dot grid + amber glow blobs ── */
+/* ── Hero — finer grid, no blobs recolor ── */
 .light-mode .hero {
-  background-image: radial-gradient(circle, rgba(184,114,16,0.22) 1px, transparent 1px);
-  background-size: 26px 26px;
+  background-image:
+    linear-gradient(rgba(108,99,255,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(108,99,255,0.06) 1px, transparent 1px);
+  background-size: 44px 44px;
 }
 
-.light-mode .hero::before {
-  background: radial-gradient(circle, rgba(184,114,16,0.13) 0%, transparent 65%);
-}
-
-.light-mode .hero::after {
-  background: radial-gradient(circle, rgba(45,125,90,0.10) 0%, transparent 65%);
-}
-
-/* Hero name — warm dark-to-amber */
+/* Hero name — Playfair Display italic, solid colour, no gradient */
 .light-mode .hero-name {
-  background: linear-gradient(135deg, #1c1108 35%, var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ── Buttons — amber gradient ── */
-.light-mode .btn-primary {
-  background: linear-gradient(135deg, var(--accent), #e07820);
-  box-shadow: 0 2px 12px rgba(184,114,16,0.28);
-}
-
-.light-mode .btn-primary:hover {
-  box-shadow: 0 8px 28px rgba(184,114,16,0.42);
-  transform: translateY(-2px);
-}
-
-.light-mode .btn-outline {
-  border-color: var(--border);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  background: none;
+  -webkit-text-fill-color: var(--text);
   color: var(--text);
 }
 
+/* Hero greeting — Inter, spaced caps */
+.light-mode .hero-greeting {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.88rem;
+}
+
+/* Hero subtitle + sub copy — Inter */
+.light-mode .hero-title,
+.light-mode .hero-sub {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* ── Buttons — pill-shaped, clean lift (no glow blur) ── */
+.light-mode .btn {
+  border-radius: 50px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.light-mode .btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(108,99,255,0.28);
+}
+
 .light-mode .btn-outline:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(108,99,255,0.14);
   border-color: var(--accent);
   color: var(--accent);
-  box-shadow: 0 4px 16px rgba(184,114,16,0.15);
 }
 
-/* ── Section title underline ── */
+/* ── Section titles — Playfair Display, animated underline ── */
+.light-mode .section-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Underline starts at 0, grows when .visible is added by IntersectionObserver */
 .light-mode .section-title::after {
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  background: var(--accent);
+  height: 2px;
+  width: 0;
+  transition: width 0.7s cubic-bezier(0.22,1,0.36,1);
 }
 
-/* ── About avatar ring ── */
-.light-mode .about-avatar {
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  box-shadow: 0 0 0 4px var(--bg), 0 0 0 6px var(--border);
+.light-mode .section-title.visible::after {
+  width: 50px;
 }
 
-/* ── Terminal — warm parchment ── */
+/* ── Terminal ── */
 .light-mode .about-terminal {
-  background: #fffdf6;
-  border: 1px solid #e4cfb0;
-  box-shadow:
-    0 0 0 1px #eedec4,
-    0 8px 32px rgba(184,114,16,0.09),
-    0 0 0 0 transparent;
+  background: #f8f9fc;
+  border-color: #d0d0df;
+  box-shadow: 0 0 0 1px #e0e0ee, 0 8px 32px rgba(0,0,0,0.08);
 }
 
 .light-mode .about-terminal::before {
@@ -1927,117 +1964,108 @@ html, body { max-width: 100%; overflow-x: hidden; }
     0deg,
     transparent,
     transparent 2px,
-    rgba(184,114,16,0.022) 2px,
-    rgba(184,114,16,0.022) 4px
+    rgba(0,0,0,0.018) 2px,
+    rgba(0,0,0,0.018) 4px
   );
 }
 
-/* Warm left accent stripe on terminal */
-.light-mode .about-terminal::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 3px;
-  height: 100%;
-  background: linear-gradient(180deg, var(--accent), var(--accent2));
-  border-radius: 10px 0 0 10px;
-  pointer-events: none;
-  z-index: 2;
-}
-
 .light-mode .terminal-bar {
-  background: #f5e8cf;
-  border-bottom: 1px solid #e4cfb0;
+  background: #ecedf5;
+  border-bottom-color: #d0d0df;
 }
 
-.light-mode .terminal-bar-title { color: #9a7840; }
+.light-mode .terminal-bar-title { color: #7070a0; }
+.light-mode .t-prompt { color: var(--accent); }
+.light-mode .t-cmd    { color: #2060c0; }
+.light-mode .t-output { color: #5a5a80; }
+.light-mode .t-cursor { background: var(--accent); }
 
-.light-mode .t-prompt  { color: var(--accent); }
-.light-mode .t-cmd     { color: #2d7d5a; }
-.light-mode .t-output  { color: var(--muted); }
-.light-mode .t-cursor  { background: var(--accent); }
-
-/* ── Stats bar ── */
 .light-mode .about-stats {
-  background: #fdf6ed;
-  border-top: 1px solid var(--border);
+  background: #f8f9fc;
+  border-top-color: #d0d0df;
 }
 
-.light-mode .stat-num {
-  color: var(--accent);
-}
-
-/* ── Tech stack cards ── */
+/* ── Tech stack cards — clean lift, no neon glow ── */
 .light-mode .techstack-item {
   background: var(--surface);
   border-color: var(--border);
-  box-shadow: 0 2px 8px rgba(184,114,16,0.06);
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1),
+              box-shadow 0.4s ease,
+              border-color 0.25s ease;
 }
 
 .light-mode .techstack-item:hover {
+  transform: translateY(-8px) scale(1.04);
   border-color: var(--accent);
-  box-shadow: 0 8px 28px rgba(184,114,16,0.18), 0 0 0 1px var(--accent);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.10), 0 0 0 1px rgba(108,99,255,0.18);
 }
 
-/* Next.js icon — white by default, needs to be dark in light mode */
+.light-mode .techstack-label {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+/* Next.js icon — white by default, needs dark in light mode */
 .light-mode .techstack-item:nth-child(6) svg {
-  color: #1c1108 !important;
-  fill: #1c1108 !important;
+  color: #1a1a2e !important;
+  fill: #1a1a2e !important;
 }
 
-/* ── Carousel cards ── */
+/* ── Carousel — clean card shadows ── */
 .light-mode .carousel-card {
   background: var(--surface);
-  box-shadow: 0 4px 20px rgba(184,114,16,0.08);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
 }
 
 .light-mode .carousel-card[data-slot="center"] {
-  box-shadow: 0 12px 48px rgba(184,114,16,0.16), 0 2px 8px rgba(0,0,0,0.06);
+  box-shadow: 0 20px 56px rgba(0,0,0,0.11), 0 4px 12px rgba(0,0,0,0.05);
 }
 
-/* ── Contact form ── */
+/* Project card headings — Playfair Display */
+.light-mode .project-body h3 {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* ── Contact form — Inter, rounded inputs ── */
 .light-mode .contact-form input,
 .light-mode .contact-form textarea {
   background: var(--surface);
   border-color: var(--border);
   color: var(--text);
+  font-family: 'Inter', system-ui, sans-serif;
+  border-radius: 10px;
 }
 
 .light-mode .contact-form input:hover,
 .light-mode .contact-form textarea:hover {
-  border-color: #cca868;
+  border-color: #b0b0cc;
 }
 
 .light-mode .contact-form input:focus,
 .light-mode .contact-form textarea:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(184,114,16,0.14);
+  box-shadow: 0 0 0 3px rgba(108,99,255,0.12);
   outline: none;
 }
 
 /* ── Footer ── */
 .light-mode .footer {
-  background: var(--bg-alt);
-  border-top: 1px solid var(--border);
+  background: var(--bg);
+  border-top-color: var(--border);
+}
+
+.light-mode .footer p,
+.light-mode .footer a {
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
 /* ── Theme toggle ── */
 .light-mode .theme-toggle {
-  background: var(--surface);
-  border-color: var(--border);
-  color: var(--text);
-  box-shadow: 0 4px 20px rgba(184,114,16,0.15);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.10);
 }
 
-.light-mode .theme-toggle:hover {
-  border-color: var(--accent);
-  box-shadow: 0 6px 24px rgba(184,114,16,0.32);
-}
-
-/* ── Reveal text glow override ── */
+/* ── Kill all neon text-shadow in light mode ── */
 .light-mode .reveal.visible {
   text-shadow: none;
 }
-
-/* ── Placeholder color ── */
-.light-mode ::placeholder { color: #b09a7a; opacity: 1; }
