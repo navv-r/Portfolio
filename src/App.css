@@ -1809,25 +1809,27 @@ html, body { max-width: 100%; overflow-x: hidden; }
 }
 
 /* ════════════════════════════════════════
-   LIGHT MODE
+   LIGHT MODE — "Golden Hour"
+   Warm ivory / amber / forest green
    ════════════════════════════════════════ */
 
 .light-mode {
-  --bg:      #f5f5f8;
-  --bg-alt:  #eaeaf0;
-  --surface: #ffffff;
-  --border:  #d0d0df;
-  --text:    #1a1a2e;
-  --muted:   #6060a0;
+  --bg:      #fdf6ed;
+  --bg-alt:  #f0e5d0;
+  --surface: #fffcf5;
+  --border:  #e4cfb0;
+  --accent:  #b87210;
+  --accent2: #2d7d5a;
+  --text:    #1c1108;
+  --muted:   #7c6548;
 }
 
-/* Portfolio wrapper gets the light background directly */
+/* ── Base ── */
 .light-mode {
   background: var(--bg);
   color: var(--text);
 }
 
-/* Sections without explicit bg need it in light mode */
 .light-mode .section:not(.section-alt) {
   background: var(--bg);
 }
@@ -1836,43 +1838,88 @@ html, body { max-width: 100%; overflow-x: hidden; }
   background: var(--bg-alt);
 }
 
-/* Scrollbar */
+/* ── Scrollbar ── */
 .light-mode::-webkit-scrollbar-track { background: var(--bg); }
 .light-mode::-webkit-scrollbar-thumb { background: var(--border); }
+.light-mode::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
-/* Nav */
+/* ── Nav — warm frosted parchment ── */
 .light-mode .nav {
-  background: rgba(245,245,248,0.88);
-  border-bottom-color: var(--border);
+  background: rgba(253,246,237,0.90);
+  border-bottom: 1px solid rgba(184,114,16,0.18);
+  box-shadow: 0 2px 24px rgba(184,114,16,0.07);
 }
 
-/* Mobile nav overlay */
 @media (max-width: 768px) {
   .light-mode .nav-links {
-    background: rgba(245,245,248,0.97);
+    background: rgba(253,246,237,0.98);
+    border-top: 1px solid var(--border);
   }
 }
 
-/* Hero grid lines */
+/* ── Hero — warm radial dot grid + amber glow blobs ── */
 .light-mode .hero {
-  background-image:
-    linear-gradient(rgba(108,99,255,0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(108,99,255,0.07) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(184,114,16,0.22) 1px, transparent 1px);
+  background-size: 26px 26px;
 }
 
-/* Hero name gradient (keep accent but darken starting color) */
+.light-mode .hero::before {
+  background: radial-gradient(circle, rgba(184,114,16,0.13) 0%, transparent 65%);
+}
+
+.light-mode .hero::after {
+  background: radial-gradient(circle, rgba(45,125,90,0.10) 0%, transparent 65%);
+}
+
+/* Hero name — warm dark-to-amber */
 .light-mode .hero-name {
-  background: linear-gradient(135deg, #1a1a2e 40%, var(--accent));
+  background: linear-gradient(135deg, #1c1108 35%, var(--accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Terminal */
+/* ── Buttons — amber gradient ── */
+.light-mode .btn-primary {
+  background: linear-gradient(135deg, var(--accent), #e07820);
+  box-shadow: 0 2px 12px rgba(184,114,16,0.28);
+}
+
+.light-mode .btn-primary:hover {
+  box-shadow: 0 8px 28px rgba(184,114,16,0.42);
+  transform: translateY(-2px);
+}
+
+.light-mode .btn-outline {
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.light-mode .btn-outline:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 4px 16px rgba(184,114,16,0.15);
+}
+
+/* ── Section title underline ── */
+.light-mode .section-title::after {
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+}
+
+/* ── About avatar ring ── */
+.light-mode .about-avatar {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  box-shadow: 0 0 0 4px var(--bg), 0 0 0 6px var(--border);
+}
+
+/* ── Terminal — warm parchment ── */
 .light-mode .about-terminal {
-  background: #f8f9fc;
-  border-color: #d0d0df;
-  box-shadow: 0 0 0 1px #e0e0ee, 0 8px 32px rgba(0,0,0,0.08), 0 0 40px rgba(108,99,255,0.05);
+  background: #fffdf6;
+  border: 1px solid #e4cfb0;
+  box-shadow:
+    0 0 0 1px #eedec4,
+    0 8px 32px rgba(184,114,16,0.09),
+    0 0 0 0 transparent;
 }
 
 .light-mode .about-terminal::before {
@@ -1880,44 +1927,75 @@ html, body { max-width: 100%; overflow-x: hidden; }
     0deg,
     transparent,
     transparent 2px,
-    rgba(0,0,0,0.018) 2px,
-    rgba(0,0,0,0.018) 4px
+    rgba(184,114,16,0.022) 2px,
+    rgba(184,114,16,0.022) 4px
   );
 }
 
+/* Warm left accent stripe on terminal */
+.light-mode .about-terminal::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--accent), var(--accent2));
+  border-radius: 10px 0 0 10px;
+  pointer-events: none;
+  z-index: 2;
+}
+
 .light-mode .terminal-bar {
-  background: #ecedf5;
-  border-bottom-color: #d0d0df;
+  background: #f5e8cf;
+  border-bottom: 1px solid #e4cfb0;
 }
 
-.light-mode .terminal-bar-title { color: #7070a0; }
+.light-mode .terminal-bar-title { color: #9a7840; }
 
-.light-mode .t-prompt { color: var(--accent); }
+.light-mode .t-prompt  { color: var(--accent); }
+.light-mode .t-cmd     { color: #2d7d5a; }
+.light-mode .t-output  { color: var(--muted); }
+.light-mode .t-cursor  { background: var(--accent); }
 
-.light-mode .t-cmd { color: #2060c0; }
-
-.light-mode .t-output { color: #5a5a80; }
-
-.light-mode .t-cursor { background: var(--accent); }
-
+/* ── Stats bar ── */
 .light-mode .about-stats {
-  background: #f8f9fc;
-  border-top-color: #d0d0df;
+  background: #fdf6ed;
+  border-top: 1px solid var(--border);
 }
 
-/* Tech stack cards */
+.light-mode .stat-num {
+  color: var(--accent);
+}
+
+/* ── Tech stack cards ── */
 .light-mode .techstack-item {
   background: var(--surface);
   border-color: var(--border);
+  box-shadow: 0 2px 8px rgba(184,114,16,0.06);
+}
+
+.light-mode .techstack-item:hover {
+  border-color: var(--accent);
+  box-shadow: 0 8px 28px rgba(184,114,16,0.18), 0 0 0 1px var(--accent);
 }
 
 /* Next.js icon — white by default, needs to be dark in light mode */
 .light-mode .techstack-item:nth-child(6) svg {
-  color: #1a1a2e !important;
-  fill: #1a1a2e !important;
+  color: #1c1108 !important;
+  fill: #1c1108 !important;
 }
 
-/* Contact form */
+/* ── Carousel cards ── */
+.light-mode .carousel-card {
+  background: var(--surface);
+  box-shadow: 0 4px 20px rgba(184,114,16,0.08);
+}
+
+.light-mode .carousel-card[data-slot="center"] {
+  box-shadow: 0 12px 48px rgba(184,114,16,0.16), 0 2px 8px rgba(0,0,0,0.06);
+}
+
+/* ── Contact form ── */
 .light-mode .contact-form input,
 .light-mode .contact-form textarea {
   background: var(--surface);
@@ -1927,16 +2005,39 @@ html, body { max-width: 100%; overflow-x: hidden; }
 
 .light-mode .contact-form input:hover,
 .light-mode .contact-form textarea:hover {
-  border-color: #b0b0cc;
+  border-color: #cca868;
 }
 
-/* Footer */
+.light-mode .contact-form input:focus,
+.light-mode .contact-form textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(184,114,16,0.14);
+  outline: none;
+}
+
+/* ── Footer ── */
 .light-mode .footer {
-  background: var(--bg);
-  border-top-color: var(--border);
+  background: var(--bg-alt);
+  border-top: 1px solid var(--border);
 }
 
-/* Theme toggle in light mode */
+/* ── Theme toggle ── */
 .light-mode .theme-toggle {
-  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+  box-shadow: 0 4px 20px rgba(184,114,16,0.15);
 }
+
+.light-mode .theme-toggle:hover {
+  border-color: var(--accent);
+  box-shadow: 0 6px 24px rgba(184,114,16,0.32);
+}
+
+/* ── Reveal text glow override ── */
+.light-mode .reveal.visible {
+  text-shadow: none;
+}
+
+/* ── Placeholder color ── */
+.light-mode ::placeholder { color: #b09a7a; opacity: 1; }
