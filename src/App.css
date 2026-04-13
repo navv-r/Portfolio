@@ -1748,3 +1748,173 @@ html, body { max-width: 100%; overflow-x: hidden; }
   33%       { transform: translate(20px, -15px) scale(1.2); }
   66%       { transform: translate(-10px, 20px) scale(0.85); }
 }
+
+/* ════════════════════════════════════════
+   THEME TOGGLE BUTTON
+   ════════════════════════════════════════ */
+
+.theme-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9000;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease,
+              transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.12);
+  border-color: var(--accent);
+  box-shadow: 0 6px 24px rgba(108,99,255,0.35);
+}
+
+.theme-toggle svg {
+  transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s ease;
+}
+
+.theme-toggle:hover svg {
+  transform: rotate(20deg);
+}
+
+/* ════════════════════════════════════════
+   LIGHT MODE
+   ════════════════════════════════════════ */
+
+.light-mode {
+  --bg:      #f5f5f8;
+  --bg-alt:  #eaeaf0;
+  --surface: #ffffff;
+  --border:  #d0d0df;
+  --text:    #1a1a2e;
+  --muted:   #6060a0;
+}
+
+/* Portfolio wrapper gets the light background directly */
+.light-mode {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Sections without explicit bg need it in light mode */
+.light-mode .section:not(.section-alt) {
+  background: var(--bg);
+}
+
+.light-mode .section-alt {
+  background: var(--bg-alt);
+}
+
+/* Scrollbar */
+.light-mode::-webkit-scrollbar-track { background: var(--bg); }
+.light-mode::-webkit-scrollbar-thumb { background: var(--border); }
+
+/* Nav */
+.light-mode .nav {
+  background: rgba(245,245,248,0.88);
+  border-bottom-color: var(--border);
+}
+
+/* Mobile nav overlay */
+@media (max-width: 768px) {
+  .light-mode .nav-links {
+    background: rgba(245,245,248,0.97);
+  }
+}
+
+/* Hero grid lines */
+.light-mode .hero {
+  background-image:
+    linear-gradient(rgba(108,99,255,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(108,99,255,0.07) 1px, transparent 1px);
+}
+
+/* Hero name gradient (keep accent but darken starting color) */
+.light-mode .hero-name {
+  background: linear-gradient(135deg, #1a1a2e 40%, var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Terminal */
+.light-mode .about-terminal {
+  background: #f8f9fc;
+  border-color: #d0d0df;
+  box-shadow: 0 0 0 1px #e0e0ee, 0 8px 32px rgba(0,0,0,0.08), 0 0 40px rgba(108,99,255,0.05);
+}
+
+.light-mode .about-terminal::before {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.018) 2px,
+    rgba(0,0,0,0.018) 4px
+  );
+}
+
+.light-mode .terminal-bar {
+  background: #ecedf5;
+  border-bottom-color: #d0d0df;
+}
+
+.light-mode .terminal-bar-title { color: #7070a0; }
+
+.light-mode .t-prompt { color: var(--accent); }
+
+.light-mode .t-cmd { color: #2060c0; }
+
+.light-mode .t-output { color: #5a5a80; }
+
+.light-mode .t-cursor { background: var(--accent); }
+
+.light-mode .about-stats {
+  background: #f8f9fc;
+  border-top-color: #d0d0df;
+}
+
+/* Tech stack cards */
+.light-mode .techstack-item {
+  background: var(--surface);
+  border-color: var(--border);
+}
+
+/* Next.js icon — white by default, needs to be dark in light mode */
+.light-mode .techstack-item:nth-child(6) svg {
+  color: #1a1a2e !important;
+  fill: #1a1a2e !important;
+}
+
+/* Contact form */
+.light-mode .contact-form input,
+.light-mode .contact-form textarea {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.light-mode .contact-form input:hover,
+.light-mode .contact-form textarea:hover {
+  border-color: #b0b0cc;
+}
+
+/* Footer */
+.light-mode .footer {
+  background: var(--bg);
+  border-top-color: var(--border);
+}
+
+/* Theme toggle in light mode */
+.light-mode .theme-toggle {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}

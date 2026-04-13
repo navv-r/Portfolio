@@ -317,12 +317,56 @@ function CountUp({ target, duration }) {
   return <span ref={ref}>{count}+</span>;
 }
 
+/* ── Theme toggle button ── */
+function ThemeToggle({ darkMode, onToggle }) {
+  return (
+    <button
+      className="theme-toggle"
+      onClick={onToggle}
+      aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+      title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+    >
+      {darkMode ? (
+        /* Sun icon — shown in dark mode to switch to light */
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="4" />
+          <line x1="12" y1="2"  x2="12" y2="5" />
+          <line x1="12" y1="19" x2="12" y2="22" />
+          <line x1="4.22" y1="4.22"  x2="6.34" y2="6.34" />
+          <line x1="17.66" y1="17.66" x2="19.78" y2="19.78" />
+          <line x1="2"  y1="12" x2="5"  y2="12" />
+          <line x1="19" y1="12" x2="22" y2="12" />
+          <line x1="4.22" y1="19.78" x2="6.34" y2="17.66" />
+          <line x1="17.66" y1="6.34" x2="19.78" y2="4.22" />
+        </svg>
+      ) : (
+        /* Crescent moon icon — shown in light mode to switch to dark */
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" />
+        </svg>
+      )}
+    </button>
+  );
+}
+
 /* ── App ── */
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeIdx, setActiveIdx] = useState(0);
   const [dir, setDir] = useState('right');
   const [commitCount, setCommitCount] = useState(null);
+  const [darkMode, setDarkMode] = useState(() => {
+    const stored = localStorage.getItem('theme');
+    return stored ? stored === 'dark' : true;
+  });
+
+  const toggleTheme = () => {
+    setDarkMode(prev => {
+      const next = !prev;
+      localStorage.setItem('theme', next ? 'dark' : 'light');
+      return next;
+    });
+  };
 
   useEffect(() => {
     fetch('/stats.json')
@@ -407,8 +451,9 @@ function App() {
   };
 
   return (
-    <div className="portfolio">
+    <div className={`portfolio${darkMode ? '' : ' light-mode'}`}>
       <CursorTrail />
+      <ThemeToggle darkMode={darkMode} onToggle={toggleTheme} />
       <nav className="nav">
         <div className="nav-logo">NR</div>
         <ul className={`nav-links${menuOpen ? ' nav-links--open' : ''}`}>
