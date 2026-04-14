@@ -317,6 +317,185 @@ function CountUp({ target, duration }) {
   return <span ref={ref}>{count}+</span>;
 }
 
+/* ── Lightning Name ── */
+function zigzag(x1, y1, x2, y2, segs, spread) {
+  const pts = [[x1, y1]];
+  for (let i = 1; i < segs; i++) {
+    pts.push([
+      x1 + (x2 - x1) * (i / segs) + (Math.random() - 0.5) * spread,
+      y1 + (y2 - y1) * (i / segs),
+    ]);
+  }
+  pts.push([x2, y2]);
+  return pts;
+}
+
+function strokeBolt(ctx, pts, lw, color, glowColor) {
+  ctx.beginPath();
+  ctx.moveTo(pts[0][0], pts[0][1]);
+  for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+  ctx.lineWidth   = lw;
+  ctx.strokeStyle = color;
+  ctx.shadowColor = glowColor;
+  ctx.shadowBlur  = 22;
+  ctx.lineCap     = 'round';
+  ctx.lineJoin    = 'round';
+  ctx.stroke();
+  ctx.shadowBlur  = 0;
+}
+
+const SMOKE_PUFFS = Array.from({ length: 10 }, (_, i) => ({
+  left : `${4 + i * 9.5}%`,
+  delay: `${(i * 0.17).toFixed(2)}s`,
+  dur  : `${(1.5 + (i % 3) * 0.45).toFixed(2)}s`,
+  drift: `${(i % 2 === 0 ? -1 : 1) * (7 + (i % 4) * 6)}px`,
+  size : 7 + (i % 3) * 4,
+}));
+
+function LightningName() {
+  const wrapRef   = useRef(null);
+  const canvasRef = useRef(null);
+  const [phase, setPhase] = useState('idle');
+
+  const flash = useCallback(() => {
+    const canvas = canvasRef.current;
+    const wrap   = wrapRef.current;
+    if (!canvas || !wrap) return;
+
+    const OH = wrap.offsetHeight;
+    canvas.width  = wrap.offsetWidth;
+    canvas.height = OH + 110;   // 110 px above the text
+    const W = canvas.width;
+    const H = canvas.height;
+    const ctx = canvas.getContext('2d');
+
+    // Impact point — upper half of the text
+    const impactX = W * (0.25 + Math.random() * 0.5);
+    const impactY = 110 + OH * 0.35;
+    const originX = impactX + (Math.random() - 0.5) * 80;
+
+    const drawOnce = () => {
+      ctx.clearRect(0, 0, W, H);
+
+      // Outer glow pass
+      const p1 = zigzag(originX, 0, impactX, impactY, 14, 32);
+      ctx.globalAlpha = 0.25;
+      strokeBolt(ctx, p1, 14, 'rgba(80,160,255,0.3)', '#3377ff');
+
+      // Mid pass
+      const p2 = zigzag(originX, 0, impactX, impactY, 14, 22);
+      ctx.globalAlpha = 0.55;
+      strokeBolt(ctx, p2, 6, 'rgba(160,210,255,0.7)', '#66aaff');
+
+      // Core bright pass
+      const p3 = zigzag(originX, 0, impactX, impactY, 16, 12);
+      ctx.globalAlpha = 1;
+      strokeBolt(ctx, p3, 2, 'rgba(220,242,255,1)', '#aaddff');
+
+      // Branch 1
+      const bIdx1 = Math.floor(p3.length * 0.35);
+      const b1 = p3[bIdx1];
+      const bp1 = zigzag(b1[0], b1[1], b1[0] + (Math.random() - 0.5) * 70, b1[1] + 40 + Math.random() * 50, 7, 14);
+      ctx.globalAlpha = 0.65;
+      strokeBolt(ctx, bp1, 1.5, 'rgba(200,232,255,0.8)', '#88ccff');
+
+      // Branch 2
+      const bIdx2 = Math.floor(p3.length * 0.65);
+      const b2 = p3[bIdx2];
+      const bp2 = zigzag(b2[0], b2[1], b2[0] + (Math.random() - 0.5) * 55, b2[1] + 25 + Math.random() * 35, 6, 10);
+      ctx.globalAlpha = 0.50;
+      strokeBolt(ctx, bp2, 1, 'rgba(200,232,255,0.7)', '#88ccff');
+
+      // Impact flare
+      ctx.globalAlpha = 0.65;
+      const flare = ctx.createRadialGradient(impactX, impactY, 0, impactX, impactY, 44);
+      flare.addColorStop(0,   'rgba(255,255,255,0.95)');
+      flare.addColorStop(0.3, 'rgba(180,220,255,0.55)');
+      flare.addColorStop(1,   'rgba(80,160,255,0)');
+      ctx.fillStyle = flare;
+      ctx.beginPath();
+      ctx.arc(impactX, impactY, 44, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+    };
+
+    // Triple flicker for realism
+    drawOnce();
+    setTimeout(drawOnce, 55);
+    setTimeout(() => ctx.clearRect(0, 0, W, H), 110);
+    setTimeout(drawOnce, 155);
+    setTimeout(() => ctx.clearRect(0, 0, W, H), 230);
+  }, []);
+
+  useEffect(() => {
+    let tid;
+    const cycle = () => {
+      setPhase('idle');
+      // Idle 4.5–7s
+      tid = setTimeout(() => {
+        setPhase('prestrike');
+        tid = setTimeout(() => {
+          flash();
+          setPhase('shock');
+          tid = setTimeout(() => {
+            setPhase('burnt');
+            tid = setTimeout(() => {
+              setPhase('smoke');
+              tid = setTimeout(() => {
+                setPhase('recover');
+                tid = setTimeout(cycle, 750);
+              }, 2500);
+            }, 800);
+          }, 1400);
+        }, 160);
+      }, 4500 + Math.random() * 2500);
+    };
+    cycle();
+    return () => clearTimeout(tid);
+  }, [flash]);
+
+  // Keep canvas sized to wrap
+  useEffect(() => {
+    const wrap = wrapRef.current;
+    const canvas = canvasRef.current;
+    if (!wrap || !canvas) return;
+    const sync = () => {
+      canvas.width  = wrap.offsetWidth;
+      canvas.height = wrap.offsetHeight + 110;
+    };
+    sync();
+    window.addEventListener('resize', sync);
+    return () => window.removeEventListener('resize', sync);
+  }, []);
+
+  const showSmoke = phase === 'smoke' || phase === 'burnt';
+
+  return (
+    <div ref={wrapRef} className="lname-wrap">
+      <canvas ref={canvasRef} className="lname-canvas" aria-hidden="true" />
+      <h1 className={`hero-name lname lname--${phase}`}>Navendra Ramdhan</h1>
+      {showSmoke && (
+        <div className="lname-smoke" aria-hidden="true">
+          {SMOKE_PUFFS.map((p, i) => (
+            <div
+              key={i}
+              className="smoke-puff"
+              style={{
+                left             : p.left,
+                animationDelay   : p.delay,
+                animationDuration: p.dur,
+                '--sdrift'       : p.drift,
+                width            : `${p.size}px`,
+                height           : `${p.size}px`,
+              }}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ── Sci-Fi Theme Transition ── */
 const ANIM_DURATION = 1400;
 const MATRIX_CHARS = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホ@#$%&[]<>|/\\'.split('');
@@ -846,7 +1025,7 @@ function App() {
       <section className="hero">
         <div className="hero-content">
           <p className="hero-greeting">Hi, I'm</p>
-          <h1 className="hero-name">Navendra Ramdhan</h1>
+          <LightningName />
           <h2 className="hero-title">
             <TypeWriter words={['Front End Developer', 'React Developer', 'UI Engineer', 'Creative Coder']} />
           </h2>
