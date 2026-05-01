@@ -162,6 +162,26 @@ function CursorTrail() {
   return <canvas ref={canvasRef} className="cursor-canvas" />;
 }
 
+/* ── Type Once ── */
+function TypeOnce({ text: fullText, speed = 60 }) {
+  const [displayed, setDisplayed] = useState('');
+  const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    if (done) return;
+    if (displayed.length >= fullText.length) { setDone(true); return; }
+    const t = setTimeout(() => setDisplayed(fullText.slice(0, displayed.length + 1)), speed);
+    return () => clearTimeout(t);
+  }, [displayed, done, fullText, speed]);
+
+  return (
+    <span>
+      {displayed}
+      {!done && <span className="tw-cursor">|</span>}
+    </span>
+  );
+}
+
 /* ── Typewriter ── */
 function TypeWriter({ words }) {
   const [text, setText] = useState('');
@@ -1125,9 +1145,9 @@ function App() {
       <section className="hero">
         <div className="hero-content">
           <p className="hero-greeting">Hi, I'm</p>
-          <LightningName />
+          <h1 className="hero-name">Navendra Ramdhan</h1>
           <h2 className="hero-title">
-            <TypeWriter words={['Front End Developer', 'React Developer', 'UI Engineer', 'Creative Coder']} />
+            <TypeOnce text="Front End Software Engineer" speed={55} />
           </h2>
           <p className="hero-sub">I build clean, performant web experiences.</p>
           <div className="hero-buttons">
